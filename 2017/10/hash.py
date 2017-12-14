@@ -50,5 +50,6 @@ def part2(lengths):
 
   return ''.join(map('{0:02x}'.format, dense))
 
-print part1(lengths)
-print part2(lengths)
+if __name__ == '__main__':
+  print part1(lengths)
+  print part2(lengths)
