@@ -38,13 +38,12 @@ def partPermutations(part):
   permutations |= flipPart(part)
   return permutations
 
-def findNewPart(rules, part):
-  for p in partPermutations(part):
-    if p in rules:
-      return rules[p]
-
 def solve(rules, rounds):
   rules = {k: [list(v) for v in l.split('/')] for k, l in [line.split(' => ') for line in rules.splitlines()]}
+  lot = {}
+  for r in rules.keys():
+    for p in partPermutations(r):
+      lot[p] = r
   grid = [list('.#.'), list('..#'), list('###')]
 
   for _ in range(rounds):
@@ -61,7 +60,7 @@ def solve(rules, rounds):
           if i > 0:
             part += '/'
           part += ''.join(grid[y+i][x:x+size])
-        new = findNewPart(rules, part)
+        new = rules[lot[part]]
         for i in range(len(new)):
           grid[y+i][x:x+size] = new[i]
   return sum([r.count('#') for r in grid])
