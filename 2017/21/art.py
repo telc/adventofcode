@@ -40,10 +40,7 @@ def partPermutations(part):
 
 def solve(rules, rounds):
   rules = {k: [list(v) for v in l.split('/')] for k, l in [line.split(' => ') for line in rules.splitlines()]}
-  lot = {}
-  for r in rules.keys():
-    for p in partPermutations(r):
-      lot[p] = r
+  lot = {p: r for r in rules.keys() for p in partPermutations(r)}
   grid = [list('.#.'), list('..#'), list('###')]
 
   for _ in range(rounds):
