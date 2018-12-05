@@ -19,14 +19,7 @@ def part1(input_):
 
 def solve(input_):
   p1 = part1(input_)
-  best_len = 99999999
-  for c in xrange(ord('a'), ord('z')+1):
-    tmp = p1.replace(chr(c), '')
-    tmp = tmp.replace(chr(c-0x20), '')
-    tmp_len = len(part1(tmp))
-    if tmp_len < best_len:
-      best_len = tmp_len
-  return len(p1), best_len
+  return len(p1), min(map(len,[part1(p1.replace(chr(c),'').replace(chr(c-0x20),'')) for c in xrange(ord('a'),ord('z')+1)]))
 
 if __name__ == '__main__':
   print solve(input_)
