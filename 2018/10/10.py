@@ -60,9 +60,9 @@ def solve(input_):
   points = defaultdict(list)
   for line in input_:
     px, py, vx, vy = map(int, re.findall(m, line))
-    points[(px,py)].append((vx,vy))
+    points[tuple(np.add((px,py), np.multiply(10000, (vx,vy))))].append((vx,vy))
   xlen = max(points.keys())[0]
-  sec = 0
+  sec = 10000
   while True:
     sec += 1
     new_points = defaultdict(list)
