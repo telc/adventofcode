@@ -1,8 +1,5 @@
 #!/usr/bin/env python2.7
 
-from __future__ import print_function
-from itertools import izip_longest
-
 with open('input', 'r') as f:
   input_ = f.read().splitlines()
 
@@ -44,10 +41,10 @@ def printRails(rail, trains):
   for y in xrange(len(rail)):
     for x in xrange(len(rail[y])):
       if (x,y) not in trains:
-        print (rail[y][x], end='', sep='')
+        print rail[y][x],
       else:
-        print ('x', end='')
-    print()
+        print 'x',
+    print
 
 def solve(input_):
   rail = [list(line) for line in input_]
@@ -67,9 +64,7 @@ def solve(input_):
           trains[(x,y)] = (0,1,0)
         rail[y][x] = '|'
   first_crash = None
-  count = 0
   while True:
-    count += 1
     new_trains = {}
     for train in sorted(trains.keys(), key=lambda x: (x[1],x[0])):
       if train in new_trains:
@@ -78,7 +73,7 @@ def solve(input_):
         del new_trains[train]
         continue
       v = trains[train]
-      x, y, _ = tuple([sum(x) for x in izip_longest(train, v, fillvalue=0)])
+      x, y = [sum(x) for x in zip(train, v)]
       if (x,y) in new_trains:
         if first_crash == None:
           first_crash = (x,y)
@@ -92,12 +87,9 @@ def solve(input_):
         new_trains[(x,y)] = turnLeft(v)
       elif (rail[y][x] == '/' and v[1] != 0) or (rail[y][x] == '\\' and v[0] != 0):
         new_trains[(x,y)] = turnRight(v)
-      else:
-        print (x,y)
-        exit()
 
-    if len(new_trains) == 1:
-      return first_crash, new_trains.keys()[0]
     trains = new_trains
+    if len(trains) == 1:
+      return first_crash, trains.keys()[0]
 if __name__ == '__main__':
-  print (solve(input_))
+  print solve(input_)
