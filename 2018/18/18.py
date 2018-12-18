@@ -24,6 +24,7 @@ def solve(input_):
   minute = 0
   hashes = []
   jumped = False
+  value = lambda a: mul(*map(sum, zip(*map(lambda x: (1,0) if x == '|' else (0,1) if x == '#' else (0,0), list(chain(*a))))))
   while minute < MINUTES:
     minute += 1
     new_area = []
@@ -48,14 +49,14 @@ def solve(input_):
           new_area[y] += area[y][x]
     area = new_area
     if minute == 10:
-      part1 = mul(*map(sum, zip(*map(lambda x: (1,0) if x == '|' else (0,1) if x == '#' else (0,0), list(chain(*area)))))
+      part1 = value(area)
     h = ''.join(area)
     if not jumped and h in hashes:
       loop_size = len(hashes) - hashes.index(h)
       minute += ((MINUTES - minute) / loop_size) * loop_size
       jumped = True
     hashes.append(h)
-  return part1, mul(*map(sum, zip(*map(lambda x: (1,0) if x == '|' else (0,1) if x == '#' else (0,0), list(chain(*area)))))
+  return part1, value(area)
 
 if __name__ == '__main__':
   print solve(input_)
