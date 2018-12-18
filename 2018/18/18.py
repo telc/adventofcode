@@ -47,16 +47,15 @@ def solve(input_):
         else:
           new_area[y] += area[y][x]
     area = new_area
-    sums = mul(*map(sum, zip(*map(lambda x: (1,0) if x == '|' else (0,1) if x == '#' else (0,0), list(chain(*area))))))
     if minute == 10:
-      part1 = sums
+      part1 = mul(*map(sum, zip(*map(lambda x: (1,0) if x == '|' else (0,1) if x == '#' else (0,0), list(chain(*area)))))
     h = ''.join(area)
     if not jumped and h in hashes:
       loop_size = len(hashes) - hashes.index(h)
       minute += ((MINUTES - minute) / loop_size) * loop_size
       jumped = True
     hashes.append(h)
-  return part1, sums
+  return part1, mul(*map(sum, zip(*map(lambda x: (1,0) if x == '|' else (0,1) if x == '#' else (0,0), list(chain(*area)))))
 
 if __name__ == '__main__':
   print solve(input_)
