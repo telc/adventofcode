@@ -63,7 +63,8 @@ def eqrr(r,a,b,c):
 def run(regs, ip, program):
   while regs[ip] < len(input_):
     if regs[ip] == 1:
-      regs[0] = sum([x for x in xrange(1, regs[4]+1) if regs[4] % x == 0])
+      m = max(regs)
+      regs[0] = sum([x for x in xrange(1, m+1) if m % x == 0])
       return
     l = input_[regs[ip]].split()
     globals()[l[0]](regs, *map(int, l[1:]))
