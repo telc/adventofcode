@@ -1,6 +1,8 @@
 #!/usr/bin/env python2.7
 
+import math
 from collections import defaultdict
+from itertools import chain, islice, izip_longest
 
 input_ = """.#..#
 .....
@@ -65,6 +67,12 @@ input_ = """.#..##.###...#######
 with open('input', 'r') as f:
   input_ = f.read().splitlines()
 
+input_ = """.#....#####...#..
+##...##.#####..##
+##...#...#.#####.
+..#.....#...###..
+..#.#.....#....##""".splitlines()
+
 def vector(a, b):
   dx = a[0] - b[0]
   dy = a[1] - b[1]
@@ -72,6 +80,9 @@ def vector(a, b):
   dx /= dist
   dy /= dist
   return round(dx, 8), round(dy, 8), dist
+
+def angle(vec):
+  return (math.degrees(math.atan2(vec[0], vec[1])) + 90) % 360
 
 def solve(lines):
   astroids = []
@@ -92,8 +103,18 @@ def solve(lines):
     if len(others) > max_seen:
       max_seen = len(others)
       max_seen_at = a
+      max_others = others
 
-  return max_seen
+  print sorted(max_others.keys(), key=angle)
+  targets = [max_others[vec] for vec in sorted(max_others.keys(), key=angle)]
+  print targets
+  exit()
+  targets = filter(None, chain.from_iterable(izip_longest(*targets)))
+  print targets
+  target = next(islice(targets, 199, None))
+
+  print target
+  return max_seen, target[1][0]*100 + target[1][1]
 
 if __name__ == '__main__':
   print solve(input_)
