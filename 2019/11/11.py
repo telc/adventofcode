@@ -91,7 +91,19 @@ def solve(program, first):
     grid[(x,y)] = output.pop(0)
     x, y, d = move(x, y, d, output.pop(0))
 
+  if first == 1:
+    xs = [c[0] for c in grid.iterkeys()]
+    ys = [c[1] for c in grid.iterkeys()]
+    for y in xrange(min(ys), max(ys)+1):
+      for x in xrange(min(xs), max(xs)+1):
+        if (x,y) in grid:
+          print '#' if grid[(x,y)] == 1 else ' ',
+        else:
+          print ' ',
+      print
+
   return len(grid)
 
 if __name__ == '__main__':
   print solve(input_, 0)
+  solve(input_, 1)
