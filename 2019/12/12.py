@@ -40,19 +40,25 @@ def solve(lines):
   for line in lines:
     pos = tuple([int(l.split('=')[1].strip('>')) for l in line.split(',')])
     moons.append(Moon(pos))
+  states = set()
+  states.add( reduce(lambda a,b: a+b, [m.pos() + m.vel() for m in moons]) )
   step = 0
   while True:
     step += 1
     for m in xrange(len(moons)):
       other = moons[:m] + moons[m+1:]
       moons[m].updateGravity(other)
+    state = ()
     for moon in moons:
       moon.move()
+      state += moon.pos() + moon.vel()
     if step == 1000:
       part1 = sum([m.energy() for m in moons])
+    if state in states:
       break
+    states.add(state)
 
-  return part1
+  return part1, step
 
 if __name__ == '__main__':
   print solve(input_)
